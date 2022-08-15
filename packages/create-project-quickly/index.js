@@ -4,6 +4,7 @@ import { Command } from "commander";
 import { readFile } from "fs/promises";
 import inquirer from "inquirer";
 import chalk from "chalk";
+import { exec } from "child_process";
 
 const pkgJson = JSON.parse(
   await readFile(new URL("./package.json", import.meta.url))
@@ -37,14 +38,14 @@ const questions = [
     message: "Please choose project template:",
     choices: [
       {
-        name: "H5: React + TypeScript + Redux",
+        name: "H5: React+TypeScript+Redux+Sass",
         value: "H5_RTR",
-        short: "H5: React + TypeScript + Redux",
+        short: "H5: React+TypeScript+Redux+Sass",
       },
       {
-        name: "PC: React + TypeScript + Redux",
-        value: "PC_RTR",
-        short: "PC: React + TypeScript + Redux",
+        name: "Next.js Custom Server",
+        value: "NCS",
+        short: "Next.js Custom Server",
       },
       {
         name: "Ant Design Project",
@@ -66,7 +67,31 @@ function init() {
     // .argument("<project-name>")
     .action((args) => {
       // console.log(args);
-      prompt(questions).then((ans) => console.log(ans));
+      prompt(questions).then((ans) => {
+        console.log(ans);
+        const url = "https://github.com/Itroads/react-admin-ts-starter.git";
+        exec("git clone " + url, (err, stdout, stderr) => {
+          if (err !== null) {
+            log(chalk.red(`clone fail: ${err}`));
+            return;
+          }
+          // fs.rename(gitName, projectName, (err) => {
+          //   if (err) {
+          //     exec("rm -rf " + gitName, function (err, out) {});
+          //     console.log(
+          //       chalk.red(`The ${projectName} project template already exist`)
+          //     );
+          //   } else {
+          //     console.log(
+          //       chalk.green(
+          //         `✔ The ${projectName} project template successfully create(项目模版创建成功)`
+          //       )
+          //     );
+          //   }
+          // });
+          process.exit(1);
+        });
+      });
     });
 
   program.parse();
