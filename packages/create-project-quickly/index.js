@@ -39,17 +39,34 @@ const questions = [
     choices: [
       {
         name: "H5: React+TypeScript+Redux+Sass",
-        value: "H5_RTR",
+        value: {
+          gitUrl: "",
+          gitName: "",
+        },
         short: "H5: React+TypeScript+Redux+Sass",
       },
       {
+        name: "PC: React+TypeScript+Redux+Sass",
+        value: {
+          gitUrl: "",
+          gitName: "",
+        },
+        short: "PC: React+TypeScript+Redux+Sass",
+      },
+      {
         name: "Next.js Custom Server",
-        value: "NCS",
+        value: {
+          gitUrl: "",
+          gitName: "",
+        },
         short: "Next.js Custom Server",
       },
       {
         name: "Ant Design Project",
-        value: "antd",
+        value: {
+          gitUrl: "",
+          gitName: "",
+        },
         short: "Antd",
       },
     ],
@@ -69,7 +86,12 @@ function init() {
       // console.log(args);
       prompt(questions).then((ans) => {
         console.log(ans);
+        const { gitUrl, gitName } = ans.templateType;
         const url = "https://github.com/Itroads/react-admin-ts-starter.git";
+        if (!gitUrl) {
+          log(chalk.bgBlueBright("This template is being prepared"));
+          return;
+        }
         exec("git clone " + url, (err, stdout, stderr) => {
           if (err !== null) {
             log(chalk.red(`clone fail: ${err}`));
