@@ -5,6 +5,10 @@ import { readFile } from "fs/promises";
 import inquirer from "inquirer";
 import chalk from "chalk";
 import { exec } from "child_process";
+// import { logSpec } from "@itroad/utils";
+// const logSpec = require("@itroad/utils");
+import pkg from "@itroad/utils";
+const { logSpec } = pkg;
 
 const pkgJson = JSON.parse(
   await readFile(new URL("./package.json", import.meta.url))
@@ -76,6 +80,8 @@ const questions = [
 function init() {
   const program = new Command();
   const prompt = inquirer.createPromptModule();
+
+  logSpec();
 
   program.version(pkgJson.version, "-v, --version");
 
